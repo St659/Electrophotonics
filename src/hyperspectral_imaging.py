@@ -67,12 +67,11 @@ def get_hyperspectral_image(results_filename, data_directory, wavelengths):
 
         data_list = list()
         for file in os.listdir(data_directory):
-            if fnmatch.fnmatch(file, '*.csv'):
-                print(os.path.join(data_directory, file))
-                file = np.genfromtxt(os.path.join(data_directory, file), delimiter=',')
-            elif fnmatch.fnmatch(file, '*.npy'):
+            # if fnmatch.fnmatch(file, '*.csv'):
+            #     print(os.path.join(data_directory, file))
+            #     file = np.genfromtxt(os.path.join(data_directory, file), delimiter=',')
+            if fnmatch.fnmatch(file, '*.npy'):
                 file = np.load(os.path.join(data_directory,file))
-
                 data_list.append(file)
 
         data = np.asarray(data_list)
