@@ -60,7 +60,8 @@ def get_hyperspectral_image(results_filename, data_directory, wavelengths):
 
 
     try:
-        resonance = np.load(results_filename)
+        resonance = np.load(results_filename + '.npy')
+        print('Loaded Resonance File')
 
     except OSError:
         data_directory_path = os.path.join(working_directory, data_directory)

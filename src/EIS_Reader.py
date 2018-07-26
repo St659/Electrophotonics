@@ -16,13 +16,13 @@ class EISReader:
 
             file_lines = file.readlines()
             header_line = self.get_header_line_number(file_lines)
-            print(header_line)
 
             self.eis = EISData()
+            set_cycle_element = self.get_version(file_lines)
             for line in file_lines[header_line:]:
                 if not set_cycle:
-                    set_cycle = float(line.split()[11])
-                if float(line.split()[11]) == set_cycle:
+                    set_cycle = float(line.split()[set_cycle_element])
+                if float(line.split()[set_cycle_element]) == set_cycle:
                     eis_data = [float(line.split()[0]),float(line.split()[3]),float(line.split()[4])]
 
                     for data, data_list in zip(eis_data, self.eis.data_list):
@@ -35,6 +35,21 @@ class EISReader:
                 header_string = str(file)
                 split_header_string =header_string.split()
                 return int(split_header_string[-1])
+
+    def get_version(self, file_lines):
+        set_cycle_int = 11
+        for file in file_lines:
+
+            if 'EC-Lab for windows' in file:
+                header_string = str(file)
+                split_header_string = header_string.split(' ')
+                if split_header_string[3] =='v10.44':
+                    set_cycle_int = 10
+                else:
+                    set_cycle_int = 11
+        return set_cycle_int
+
+
 
 class EISPlotter:
     def __init__(self, directory, average=False, block=True, legends=False):
